@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Existing Customers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    body {
+      font-family: 'Oswald', sans-serif;
+      background: linear-gradient(135deg, #001f3f, #004aad);
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      width: 90%;
+      max-width: 800px;
+      background: linear-gradient(145deg, #101820, #1c2b3a);
+      padding: 2.5rem;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,255,255,0.5);
+      border: 3px solid #00bcd4;
+      position: relative;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 2.5rem;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      color: #ffffff;
+      text-shadow: 0px 0px 10px rgba(0,255,255,0.8);
+    }
+    .customer-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .customer-card {
+      background: #222;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0px 4px 10px rgba(0,255,255,0.3);
+      border-left: 5px solid #00bcd4;
+      font-size: 1.2rem;
+    }
+    .customer-card:hover {
+      background: #333;
+      transform: scale(1.05);
+    }
+    .customer-profile {
+      display: none;
+      padding: 20px;
+      background: #111;
+      border-radius: 10px;
+      box-shadow: 0px 4px 12px rgba(0,255,255,0.5);
+      border: 2px solid #00bcd4;
+      text-align: left;
+      margin-top: 20px;
+      animation: fadeIn 0.3s ease-in-out;
+      position: relative;
+    }
+    .vehicle-item {
+      background: #333;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 5px;
+      border-left: 3px solid #00bcd4;
+      cursor: pointer;
+      transition: background 0.3s ease-in-out;
+    }
+    .vehicle-item:hover {
+      background: #555;
+    }
+    .vehicle-details {
+      background: #222;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 5px;
+      border-left: 3px solid #00bcd4;
+      text-align: left;
+    }
+    .btn {
+      padding: 8px 12px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+      border: none;
+      outline: none;
+    }
+    .btn:hover {
+      transform: scale(1.1);
+    }
+    .btn-delete {
+      background: transparent;
+      color: red;
+      font-size: 1.5rem;
+      cursor: pointer;
+      border: none;
+    }
+    .photo-gallery img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      margin: 5px;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .photo-gallery img:hover {
+      border: 2px solid #00bcd4;
+    }
+    /* Pre-inspection folder styles */
+    .inspection-folder {
+      margin-top: 10px;
+      background: #333;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .inspection-folder h4 {
+      margin: 0 0 5px 0;
+      color: #00bcd4;
+    }
+    .inspection-record {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 5px 0;
+      padding: 5px;
+      background: #222;
+      border-radius: 3px;
+    }
+    .inspection-record a {
+      color: #00bcd4;
+      text-decoration: underline;
+      flex-grow: 1;
+    }
+    .inspection-record img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      margin-right: 5px;
+      border: 1px solid #fff;
+    }
+    .inspection-record button {
+      margin-left: 10px;
+      padding: 4px 8px;
+      background: red;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Existing Customers</h1>
+    <div id="customerList" class="customer-list"></div>
+    <div id="customerProfile" class="customer-profile">
+      <h2 id="customerName"></h2>
+      <p id="customerPhone"></p>
+      <p id="customerLocation"></p>
+      <button class="btn-delete" onclick="deleteCustomer()">❌</button>
+      <h3>Vehicles:</h3>
+      <div id="vehicleList" class="vehicle-list"></div>
+    </div>
+  </div>
+  <script>
+    let selectedCustomerId = null;
+
+    function loadCustomers() {
+      let customers = JSON.parse(localStorage.getItem("customers")) || [];
+      const customerList = document.getElementById("customerList");
+      customerList.innerHTML = "";
+      customers.forEach(customer => {
+        let customerCard = document.createElement("div");
+        customerCard.classList.add("customer-card");
+        customerCard.textContent = customer.name;
+        customerCard.onclick = () => loadCustomerProfile(customer.id);
+        customerList.appendChild(customerCard);
+      });
+    }
+
+    function loadCustomerProfile(customerId) {
+      selectedCustomerId = customerId;
+      let customers = JSON.parse(localStorage.getItem("customers")) || [];
+      let customer = customers.find(c => c.id == customerId);
+      if (!customer) return;
+      document.getElementById("customerName").textContent = `📂 ${customer.name}`;
+      document.getElementById("customerPhone").textContent = `📞 ${customer.phone}`;
+      document.getElementById("customerLocation").textContent = `📍 ${customer.location}`;
+      let vehicleList = document.getElementById("vehicleList");
+      vehicleList.innerHTML = "";
+      let vehicles = JSON.parse(localStorage.getItem("vehicles")) || [];
+      let customerVehicles = vehicles.filter(v => v.customerId == customerId);
+      customerVehicles.forEach(vehicle => {
+        let vehicleItem = document.createElement("div");
+        vehicleItem.classList.add("vehicle-item");
+        vehicleItem.innerHTML = `${vehicle.year} ${vehicle.make} ${vehicle.model}`;
+        vehicleItem.onclick = () => toggleVehicleDetails(vehicle, vehicleItem);
+        vehicleList.appendChild(vehicleItem);
+      });
+      document.getElementById("customerProfile").style.display = "block";
+    }
+
+    function toggleVehicleDetails(vehicle, vehicleItem) {
+      // Remove any existing details sections
+      document.querySelectorAll(".vehicle-details").forEach(el => el.remove());
+      let detailsDiv = document.createElement("div");
+      detailsDiv.classList.add("vehicle-details");
+      // Replace the pre-inspection button with one that toggles a folder view
+      detailsDiv.innerHTML = `
+        <p><strong>Year:</strong> ${vehicle.year}</p>
+        <p><strong>Make:</strong> ${vehicle.make}</p>
+        <p><strong>Model:</strong> ${vehicle.model}</p>
+        <button class="btn btn-view-photos" onclick="openPhotoManager('${vehicle.id}')">📸 View/Add Photos</button>
+        <button class="btn btn-add-service">🛠 Add Service Request</button>
+        <button class="btn btn-questionnaire">📋 Customer Questionnaire</button>
+        <button class="btn btn-pre-inspection" onclick="togglePreInspectionFolder('${vehicle.id}', this)">📝 Pre-Inspection Folder</button>
+        <button class="btn-delete" onclick="deleteVehicle()">❌</button>
+      `;
+      vehicleItem.insertAdjacentElement("afterend", detailsDiv);
+    }
+
+    function togglePreInspectionFolder(vehicleId, btn) {
+      // Check if an inspection folder already exists under the button
+      let detailsDiv = btn.parentElement;
+      let folder = detailsDiv.querySelector(".inspection-folder");
+      if (folder) {
+        // Toggle visibility
+        folder.style.display = (folder.style.display === "none" ? "block" : "none");
+      } else {
+        // Create the folder div and populate it
+        folder = document.createElement("div");
+        folder.classList.add("inspection-folder");
+        // Add a header with an "Add New" link
+        folder.innerHTML = `
+          <h4>Pre-Inspections</h4>
+          <a href="pre-inspection.html?vehicleId=${vehicleId}" style="color:#00bcd4;text-decoration:underline;">➕ Add New Pre-Inspection</a>
+          <div class="inspection-records"></div>
+        `;
+        detailsDiv.appendChild(folder);
+        loadInspectionRecords(vehicleId, folder.querySelector(".inspection-records"));
+      }
+    }
+
+    function loadInspectionRecords(vehicleId, container) {
+      container.innerHTML = "";
+      let inspections = JSON.parse(localStorage.getItem("preInspections")) || [];
+      // Filter for records matching this vehicle
+      let records = inspections.filter(ins => ins.vehicleId == vehicleId);
+      if (records.length === 0) {
+        container.innerHTML = "<p style='color:#aaa;'>No pre-inspections submitted.</p>";
+        return;
+      }
+      records.forEach(ins => {
+        const date = new Date(ins.timestamp);
+        // Create a record container
+        let recordDiv = document.createElement("div");
+        recordDiv.classList.add("inspection-record");
+        // Create a thumbnail if any exterior photo exists (as an example)
+        let thumb = "";
+        for (let key in ins.exterior) {
+          if (ins.exterior[key].photo) {
+            thumb = `<img src="${ins.exterior[key].photo}" alt="Thumb">`;
+            break;
+          }
+        }
+        // Create a link to view the pre-inspection record (PDF view)
+        let link = document.createElement("a");
+        link.href = `pre-inspection-view.html?inspectionId=${ins.timestamp}`;
+        link.textContent = date.toLocaleString();
+        // Create a delete button for the record
+        let delBtn = document.createElement("button");
+        delBtn.textContent = "Delete";
+        delBtn.onclick = function() {
+          if (confirm("Are you sure you want to delete this pre-inspection record?")) {
+            deletePreInspection(ins.timestamp, vehicleId);
+          }
+        };
+        // Append thumbnail (if exists), link, and delete button
+        recordDiv.innerHTML = thumb;
+        recordDiv.appendChild(link);
+        recordDiv.appendChild(delBtn);
+        container.appendChild(recordDiv);
+      });
+    }
+
+    function deletePreInspection(inspectionId, vehicleId) {
+      let inspections = JSON.parse(localStorage.getItem("preInspections")) || [];
+      inspections = inspections.filter(ins => ins.timestamp != inspectionId);
+      localStorage.setItem("preInspections", JSON.stringify(inspections));
+      // Refresh the folder view for this vehicle
+      let detailsDiv = document.querySelector(`.vehicle-details button.btn-pre-inspection[onclick*="${vehicleId}"]`).parentElement;
+      let folder = detailsDiv.querySelector(".inspection-folder .inspection-records");
+      if (folder) loadInspectionRecords(vehicleId, folder);
+    }
+
+    function openPhotoManager(vehicleId) {
+      window.location.href = `photo-manager.html?vehicleId=${vehicleId}`;
+    }
+
+    // Placeholder functions for deleting customer and vehicle
+    function deleteCustomer() {
+      alert("Delete customer functionality not implemented in this demo.");
+    }
+    function deleteVehicle() {
+      alert("Delete vehicle functionality not implemented in this demo.");
+    }
+
+    document.addEventListener("DOMContentLoaded", loadCustomers);
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "customers": [
+    {
+      "id": 1740353458880,
+      "name": "tyler twining",
+      "phone": "5707660065",
+      "location": "clifford",
+      "referral": "Facebook"
+    }
+  ],
+  "vehicles": [
+    {
+      "id": 1740353687046,
+      "customerId": "1740353458880",
+      "type": "Commercial",
+      "make": "dodge",
+      "model": "3500",
+      "year": "2020",
+      "color": "red"
+    },
+    {
+      "id": 1740354986080,
+      "customerId": "1740353458880",
+      "type": "SUV",
+      "make": "chevy",
+      "model": "tahoe",
+      "year": "2020",
+      "color": "black"
+    }
+  ]
+}
