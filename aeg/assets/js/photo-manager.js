@@ -36,7 +36,7 @@ function uploadVehiclePhotos() {
     formData.append("photos", file);
   }
 
-  fetch("https://aeg-backend-vq4w.onrender.com/upload", {
+  fetch("http://localhost:5000/upload", {
     method: "POST",
     body: formData
   })
@@ -48,7 +48,7 @@ function uploadVehiclePhotos() {
 function fetchVehiclePhotos() {
   // Only fetch photos if in photo view.
   if (!folder) return;
-  let url = `https://aeg-backend-vq4w.onrender.com/photos/${vehicleId}/${encodeURIComponent(folder)}`;
+  let url = `http://localhost:5000/photos/${vehicleId}/${encodeURIComponent(folder)}`;
   fetch(url)
     .then(response => response.json())
     .then(data => {
@@ -58,10 +58,10 @@ function fetchVehiclePhotos() {
       data.photos.forEach(photo => {
         let img = document.createElement("img");
         // Use the image itself as a thumbnail.
-        img.src = `https://aeg-backend-vq4w.onrender.com${photo}`;
+        img.src = `http://localhost:5000${photo}`;
         img.alt = "Vehicle Photo";
         // On click, open the full image with a timestamp to avoid caching issues.
-        img.onclick = () => window.open(`https://aeg-backend-vq4w.onrender.com${photo}?t=${Date.now()}`, "_blank");
+        img.onclick = () => window.open(`http://localhost:5000${photo}?t=${Date.now()}`, "_blank");
 
         let deleteBtn = document.createElement("button");
         deleteBtn.textContent = "❌";
@@ -78,7 +78,7 @@ function fetchVehiclePhotos() {
 }
 
 function deleteVehiclePhoto(photoPath) {
-  fetch("https://aeg-backend-vq4w.onrender.com/delete_photo", {
+  fetch("http://localhost:5000/delete_photo", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ vehicleId, photoPath })
@@ -94,7 +94,7 @@ function createFolder() {
     return;
   }
 
-  fetch("https://aeg-backend-vq4w.onrender.com/create_folder", {
+  fetch("http://localhost:5000/create_folder", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ vehicleId, folderName })
@@ -112,7 +112,7 @@ function createFolder() {
 }
 
 function fetchFolders() {
-  fetch(`https://aeg-backend-vq4w.onrender.com/folders/${vehicleId}`)
+  fetch(`http://localhost:5000/folders/${vehicleId}`)
     .then(response => response.json())
     .then(data => {
       let folderList = document.getElementById("folderList");
@@ -148,7 +148,7 @@ function fetchFolders() {
 }
 
 function deleteFolder(folderName) {
-  fetch("https://aeg-backend-vq4w.onrender.com/delete_folder", {
+  fetch("http://localhost:5000/delete_folder", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ vehicleId, folderName })
