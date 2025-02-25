@@ -24,7 +24,7 @@ function readDatabase() {
   if (fs.existsSync(DATABASE_FILE)) {
     return JSON.parse(fs.readFileSync(DATABASE_FILE, "utf8"));
   }
-  return { customers: [], vehicles: [] };
+  return { customers: [], vehicles: [], serviceRequests: [] };
 }
 
 function writeDatabase(db) {
@@ -123,22 +123,76 @@ app.post("/delete_folder", (req, res) => {
   }
 });
 
-// **Save Customer Data**
-app.post("/save_customer", (req, res) => {
-  const customer = req.body;
-  let db = readDatabase();
-  db.customers.push(customer);
-  writeDatabase(db);
-  res.json({ message: "Customer saved successfully!" });
+// 🏁 **Service Request API Routes** 🏁
+
+// ✅ Fetch All Customers
+app.get("/get_customers", (req, res) => {
+    let db = readDatabase();
+    res.json(db.customers);
 });
 
-// **Save Vehicle Data**
+// ✅ Fetch Vehicles for a Specific Customer
+app.get("/get_vehicles", (req, res) => {
+    let db = readDatabase();
+    const customerId = req.query.customerId;
+    res.json(db.vehicles.filter(v => v.customerId === customerId));
+});
+
+// ✅ Save a New Customer
+app.post("/save_customer", (req, res) => {
+    const customer = req.body;
+    let db = readDatabase();
+    db.customers.push(customer);
+    writeDatabase(db);
+    res.json({ message: "Customer saved successfully!" });
+});
+
+// ✅ Save a New Vehicle
 app.post("/save_vehicle", (req, res) => {
-  const vehicle = req.body;
-  let db = readDatabase();
-  db.vehicles.push(vehicle);
-  writeDatabase(db);
-  res.json({ message: "Vehicle saved successfully!" });
+    const vehicle = req.body;
+    let db = readDatabase();
+    db.vehicles.push(vehicle);
+    writeDatabase(db);
+    res.json({ message: "Vehicle saved successfully!" });
+});
+
+// ✅ Save a Service Request
+app.post("/save_service_request", (req, res) => {
+    let db = readDatabase();
+    const newRequest = req.body;
+    db.serviceRequests = db.serviceRequests || [];
+    db.serviceRequests.push(newRequest);
+    writeDatabase(db);
+    res.json({ message: "Service request saved successfully!" });
+});
+
+// ✅ Fetch All Service Requests (Optional)
+app.get("/get_service_requests", (req, res) => {
+    let db = readDatabase();
+    res.json(db.serviceRequests);
+});
+
+// ✅ Fetch Service Requests by Customer
+app.get("/get_service_requests_by_customer", (req, res) => {
+    let db = readDatabase();
+    const customerId = req.query.customerId;
+    res.json(db.serviceRequests.filter(sr => sr.customerId === customerId));
+});
+
+// ✅ Fetch Service Requests by Vehicle
+app.get("/get_service_requests_by_vehicle", (req, res) => {
+    let db = readDatabase();
+    const vehicleId = req.query.vehicleId;
+    res.json(db.serviceRequests.filter(sr => sr.vehicleId === vehicleId));
+});
+
+// ✅ Delete a Service Request (Optional)
+app.post("/delete_service_request", (req, res) => {
+    let db = readDatabase();
+    const { requestId } = req.body;
+    db.serviceRequests = db.serviceRequests.filter(sr => sr.id !== requestId);
+    writeDatabase(db);
+    res.json({ message: "Service request deleted successfully!" });
 });
 
 // API Root Endpoint
