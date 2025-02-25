@@ -3,13 +3,214 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${file%.*}</title>
+  <title>Service Request</title>
   <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .container {
+      max-width: 650px;
+      margin: auto;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+      border: 2px solid #004aad;
+      text-align: center;
+    }
+    h1 {
+      font-family: 'Luckiest Guy', cursive;
+      font-size: 2.5rem;
+      color: white;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+      color: white;
+    }
+    select, input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 2px solid black;
+      padding: 10px;
+      color: white;
+    }
+    th {
+      background-color: #004aad;
+      text-align: left;
+    }
+    .service-checkbox {
+      width: 20px;
+      height: 20px;
+      transform: scale(1.2);
+    }
+    .note-box {
+      width: 120px;
+      padding: 5px;
+      font-size: 0.9rem;
+      height: 25px;
+      transition: height 0.3s ease-in-out;
+      overflow: hidden;
+    }
+    .note-box:focus {
+      height: 80px;
+      width: 100%;
+    }
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5rem;
+    }
+    .btn {
+      padding: 10px 15px;
+      font-size: 1.2rem;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-primary {
+      background-color: #004aad;
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: #002855;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>${file%.*}</h1>
-    <!-- New blank page -->
+    <h1>Service Request</h1>
+    <form id="serviceRequestForm">
+      <!-- Step 1: Select Customer & Vehicle -->
+      <div id="step1">
+        <label for="customer">Select Customer:</label>
+        <select id="customer" required>
+          <option value="" disabled selected>Choose a Customer</option>
+        </select>
+
+        <label for="vehicle">Select Vehicle:</label>
+        <select id="vehicle" required>
+          <option value="" disabled selected>Choose a Vehicle</option>
+        </select>
+
+        <div class="button-group">
+          <button type="button" class="btn btn-primary" onclick="goToStep(2)">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Select Services -->
+      <div id="step2" style="display: none;">
+        <h2>Select Services</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Select</th>
+              <th>Service</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="services-list"></tbody>
+        </table>
+
+        <div class="button-group">
+          <button type="button" class="btn" onclick="goToStep(1)">Back</button>
+          <button type="button" class="btn btn-primary" onclick="goToStep(3)">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Price & Appointment Date -->
+      <div id="step3" style="display: none;">
+        <h2>Pricing & Appointment</h2>
+
+        <label for="price">Quoted Price (Optional):</label>
+        <input type="text" id="price" placeholder="Enter quoted price...">
+
+        <label for="appointment-date">Appointment Date:</label>
+        <input type="date" id="appointment-date" required>
+
+        <div class="button-group">
+          <button type="button" class="btn" onclick="goToStep(2)">Back</button>
+          <button type="button" class="btn btn-primary" onclick="goToStep(4)">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Review & Submit -->
+      <div id="step4" style="display: none;">
+        <h2>Review & Submit</h2>
+        <div id="review-content"></div>
+
+        <div class="button-group">
+          <button type="button" class="btn" onclick="goToStep(3)">Back</button>
+          <button type="submit" class="btn btn-primary">Submit Request</button>
+        </div>
+      </div>
+    </form>
   </div>
+
+  <script>
+    const services = [
+      "Interior Detailing", "Exterior Detailing", "Headlight Restoration",
+      "Engine Bay Detail", "Ceramic Coating (3-Year)", "Ceramic Coating (7-Year)",
+      "Ceramic Maintenance Wash", "Undercarriage Wash", "Truck Bed Wash",
+      "Chrome Polishing", "Paint Correction", "Paint Enhancement", 
+      "Paint Chip Repair", "Plastic Dyeing & Restoration", "Window Tint Removal"
+    ];
+
+    function goToStep(step) {
+      document.getElementById("step1").style.display = step === 1 ? "block" : "none";
+      document.getElementById("step2").style.display = step === 2 ? "block" : "none";
+      document.getElementById("step3").style.display = step === 3 ? "block" : "none";
+      document.getElementById("step4").style.display = step === 4 ? "block" : "none";
+
+      if (step === 4) {
+        let selectedServices = "";
+        document.querySelectorAll(".service-checkbox:checked").forEach((box) => {
+          let note = document.getElementById(`note-${box.value}`).value;
+          selectedServices += `<p><strong>${box.value}:</strong> ${note || "No Notes"}</p>`;
+        });
+
+        document.getElementById("review-content").innerHTML = `
+          <p><strong>Customer:</strong> ${document.getElementById("customer").selectedOptions[0].text}</p>
+          <p><strong>Vehicle:</strong> ${document.getElementById("vehicle").selectedOptions[0].text}</p>
+          <p><strong>Quoted Price:</strong> ${document.getElementById("price").value || "Not Provided"}</p>
+          <p><strong>Appointment Date:</strong> ${document.getElementById("appointment-date").value}</p>
+          ${selectedServices}
+        `;
+      }
+    }
+
+    function loadCustomers() {
+      let customers = JSON.parse(localStorage.getItem("customers")) || [];
+      const customerSelect = document.getElementById("customer");
+      customers.forEach(c => {
+        let opt = document.createElement("option");
+        opt.value = c.id;
+        opt.textContent = c.name;
+        customerSelect.appendChild(opt);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadCustomers();
+      document.getElementById("services-list").innerHTML = services.map(s => 
+        `<tr>
+          <td><input type="checkbox" class="service-checkbox" value="${s}"></td>
+          <td>${s}</td>
+          <td><input type="text" id="note-${s}" class="note-box" placeholder="Add notes (optional)"></td>
+        </tr>`
+      ).join("");
+    });
+  </script>
 </body>
 </html>
