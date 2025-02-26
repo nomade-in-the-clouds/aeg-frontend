@@ -18,12 +18,12 @@ body {
     border-radius: 15px;
     width: 100%;
     max-width: 900px;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
-    border: 3px solid #00ffff;
+    box-shadow: none;
+    border: 3px solid #ffffff;
     text-align: center;
 }
 
-/* Header styling */
+/* Header styling on stainless steel box */
 .header-title {
     font-family: 'Frijole', sans-serif;
     font-size: 7rem;
@@ -31,7 +31,7 @@ body {
     color: white;
     margin-bottom: 1rem;
     letter-spacing: 2px;
-    text-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;
+    text-shadow: none;
     background: linear-gradient(180deg, #c0c0c0, #808080);
     padding: 20px;
     border-radius: 12px;
@@ -45,7 +45,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
     margin-top: 20px;
 }
 
@@ -55,22 +55,23 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 250px;
-    padding: 0.8rem;
-    font-size: 1.5rem;
+    width: 200px;
+    padding: 0.5rem;
+    font-size: 1.2rem;
     text-align: center;
     text-transform: uppercase;
-    border-radius: 10px;
+    border-radius: 8px;
     background: linear-gradient(180deg, #0099cc, #005f80);
     color: #00008b;
-    border: 3px solid #000000;
+    border: 3px solid #ffffff;
     transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s;
-    text-shadow: 0 0 5px #ffff00, 0 0 10px #ffff00;
+    text-shadow: none;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 .nav-buttons a:hover {
     background: linear-gradient(180deg, #00bfff, #0077aa);
     transform: translateY(-2px);
-    box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+    box-shadow: none;
 }
