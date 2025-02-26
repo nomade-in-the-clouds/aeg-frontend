@@ -1,7 +1,7 @@
 /* Global styles */
 body {
     font-family: 'EXOTC350 Bold', sans-serif;
-    background: linear-gradient(135deg, #001f3f, #005f99);
+    background: #3e00bd;
     color: #ffffff;
     margin: 0;
     padding: 0;
@@ -19,13 +19,14 @@ body {
     width: 100%;
     max-width: 900px;
     box-shadow: 0 20px 30px rgba(0, 0, 0, 0.8);
-    border: 6px solid #ffcc00;
+    border: 6px solid #dfff12;
     text-align: center;
 }
 
 /* Header styling with bold industrial font */
 .header-title {
-    font-size: 4.5rem;
+    font-family: 'Rowdies', cursive;
+    font-size: 9rem;
     text-transform: uppercase;
     color: white;
     margin-bottom: 1.5rem;
@@ -48,6 +49,7 @@ body {
 }
 
 .nav-buttons a {
+    font-family: 'Permanent Marker', cursive;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -57,8 +59,8 @@ body {
     text-align: center;
     font-weight: bold;
     border-radius: 12px;
-    background: linear-gradient(180deg, #ffcc00, #ffaa00);
-    color: #0066cc;
+    background: linear-gradient(180deg, #dfff12, #c6e300);
+    color: #1e1aff;
     border: 4px solid #000000;
     transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s;
     text-shadow: none;
@@ -66,8 +68,7 @@ body {
 }
 
 .nav-buttons a:hover {
-    background: linear-gradient(180deg, #ffdd44, #ffbb00);
+    background: linear-gradient(180deg, #f0ff3d, #dfff12);
     transform: translateY(-2px);
     box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.6), 0 0 10px #ffffff;
 }
- 
