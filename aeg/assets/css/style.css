@@ -25,16 +25,19 @@ body {
 
 /* Header styling */
 .header-title {
-    font-family: 'Rowdies', bold;
-    font-size: 4.5rem;
+    font-family: 'Frijole', sans-serif;
+    font-size: 6rem;
     text-transform: uppercase;
     color: white;
     margin-bottom: 1rem;
     letter-spacing: 2px;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+    width: 100%;
+    max-width: 90%;
+    display: inline-block;
 }
 
-/* Navigation buttons styling (matches image 2 colors and gloss) */
+/* Navigation buttons styling (no cursive, bold font) */
 .nav-buttons {
     display: flex;
     flex-direction: column;
@@ -44,7 +47,8 @@ body {
 }
 
 .nav-buttons a {
-    font-family: 'Permanent Marker', cursive;
+    font-family: 'EXOTC350 Bold', sans-serif;
+    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,7 +56,7 @@ body {
     padding: 1rem;
     font-size: 1.8rem;
     text-align: center;
-    font-weight: bold;
+    text-transform: uppercase;
     border-radius: 12px;
     background: linear-gradient(180deg, #0099cc, #005f80);
     color: white;
