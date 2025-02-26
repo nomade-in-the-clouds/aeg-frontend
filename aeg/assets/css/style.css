@@ -25,7 +25,7 @@ body {
 
 /* Header styling */
 .header-title {
-    font-family: 'Rowdies', cursive;
+    font-family: 'Rowdies', bold;
     font-size: 4.5rem;
     text-transform: uppercase;
     color: white;
