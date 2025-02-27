@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,6 +55,20 @@
       padding: 8px;
       text-align: left;
     }
+
+    /* Adjust Attach Photo column */
+    th:nth-child(3), td:nth-child(3) {
+      width: 120px; /* Reduce width of Attach Photo column */
+      text-align: right; /* Align to the right */
+    }
+
+    /* Make file input smaller */
+    input[type="file"] {
+      width: 90%; /* Reduce input width */
+      max-width: 100px; /* Restrict max width */
+      font-size: 0.8rem; /* Decrease font size */
+    }
+
     .button-group {
       margin-top: 20px;
       display: flex;
@@ -90,6 +105,7 @@
           <option value="" disabled selected>Select a Vehicle</option>
         </select>
       </div>
+
       <!-- Exterior Inspection -->
       <div id="exteriorSection">
         <h2>Exterior Inspection</h2>
@@ -97,11 +113,11 @@
           <tr>
             <th>Item</th>
             <th>Damage Notes</th>
-            <th>Attach Photo</th>
+            <th style="width: 120px; text-align: right;">Attach Photo</th>
           </tr>
-          <!-- Rows inserted via JS -->
         </table>
       </div>
+
       <!-- Interior Inspection -->
       <div id="interiorSection">
         <h2>Interior Inspection</h2>
@@ -109,11 +125,11 @@
           <tr>
             <th>Item</th>
             <th>Damage Notes</th>
-            <th>Attach Photo</th>
+            <th style="width: 120px; text-align: right;">Attach Photo</th>
           </tr>
-          <!-- Rows inserted via JS -->
         </table>
       </div>
+
       <!-- Review & Submit -->
       <div id="reviewSection">
         <h2>Review & Submit</h2>
@@ -125,6 +141,7 @@
       </div>
     </form>
   </div>
+  
   <script>
     const exteriorItems = ["Roof", "Plastic Trim", "Glass", "Chrome", "Driver's Doors", "Passenger Doors", "Hood", "Driver's Fender", "Passenger Fender", "Front Bumper", "Grill", "Headlights", "Driver's Rear Quarter", "Passenger Side Rear Quarter", "Trunk/Tailgate", "Rear Bumper", "Taillights", "Rims", "Running Boards", "Mirrors", "Other"];
     const interiorItems = ["Headliner", "Pillars", "Glass", "Dash", "Center Console", "Driver's Door Panel", "Passenger Door Panels", "Front Seats", "Rear Seats", "Floor/Carpet", "Door Rubber", "Trunk", "Electrical"];
@@ -180,76 +197,6 @@
     
     document.getElementById("customer").addEventListener("change", loadVehicles);
     
-    document.getElementById("preInspectionForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const customerId = document.getElementById("customer").value;
-      const vehicleId = document.getElementById("vehicle").value;
-      if (!customerId || !vehicleId) {
-        alert("Please select both a customer and a vehicle.");
-        return;
-      }
-      
-      const exteriorData = {};
-      const extInputs = document.querySelectorAll(".ext-input");
-      const extFiles = document.querySelectorAll(".ext-file");
-      const extPromises = Array.from(extInputs).map((input, i) => {
-        const item = input.getAttribute("data-item");
-        exteriorData[item] = { notes: input.value, photo: null };
-        const fileInput = extFiles[i];
-        if (fileInput.files.length > 0) {
-          return new Promise(resolve => {
-            const reader = new FileReader();
-            reader.onload = function() {
-              exteriorData[item].photo = reader.result;
-              resolve();
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-          });
-        } else {
-          return Promise.resolve();
-        }
-      });
-      
-      const interiorData = {};
-      const intInputs = document.querySelectorAll(".int-input");
-      const intFiles = document.querySelectorAll(".int-file");
-      const intPromises = Array.from(intInputs).map((input, i) => {
-        const item = input.getAttribute("data-item");
-        interiorData[item] = { notes: input.value, photo: null };
-        const fileInput = intFiles[i];
-        if (fileInput.files.length > 0) {
-          return new Promise(resolve => {
-            const reader = new FileReader();
-            reader.onload = function() {
-              interiorData[item].photo = reader.result;
-              resolve();
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-          });
-        } else {
-          return Promise.resolve();
-        }
-      });
-      
-      Promise.all([...extPromises, ...intPromises]).then(() => {
-        const timestamp = Date.now();
-        const preInspection = {
-          customerId,
-          vehicleId,
-          exterior: exteriorData,
-          interior: interiorData,
-          timestamp
-        };
-        let inspections = JSON.parse(localStorage.getItem("preInspections")) || [];
-        inspections.push(preInspection);
-        localStorage.setItem("preInspections", JSON.stringify(inspections));
-        alert("Pre-inspection saved!");
-        // Redirect to main menu (adjusted path)
-        window.location.href = "../index.html";
-      });
-    });
-    
-    // Initialize
     loadCustomers();
     loadInspectionTables();
   </script>
