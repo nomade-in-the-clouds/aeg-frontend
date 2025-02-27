@@ -1,8 +1,7 @@
 /* Global styles */
 body {
-    font-family: 'EXOTC350 Bold', sans-serif;
-    background: url('path-to-water-texture.jpg') no-repeat center center fixed;
-    background-size: cover;
+    font-family: 'Oswald', sans-serif;
+    background: linear-gradient(135deg, #002855, #004aad);
     color: #ffffff;
     margin: 0;
     padding: 0;
@@ -12,61 +11,52 @@ body {
     align-items: center;
 }
 
-/* Main container styled to match the logo theme */
+/* Main container styling */
 .main-container {
-    background: #000000;
-    padding: 3rem;
-    border-radius: 15px;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 2.5rem;
+    border-radius: 10px;
     width: 100%;
-    max-width: 900px;
-    min-height: 750px;
-    border: 3px solid #ffffff;
+    max-width: 800px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+    border: 2px solid #004aad;
     text-align: center;
-    position: relative;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.7), inset 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* Header styling with AEG Detailing Logo */
-.header-title {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto 1rem;
-    display: block;
+/* Header styling with bold industrial font */
+h1 {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 4rem;
+    text-transform: uppercase;
+    color: white;
+    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
 }
 
-/* Navigation buttons to match logo style */
+/* Navigation buttons with reduced width */
 .nav-buttons {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
     margin-top: 20px;
 }
 
 .nav-buttons a {
-    font-family: 'EXOTC350 Bold', sans-serif;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     width: 200px;
-    padding: 0.5rem;
-    font-size: 1rem;
+    padding: 0.8rem;
+    font-size: 1.3rem;
     text-align: center;
-    text-transform: uppercase;
-    border-radius: 25px;
-    background: linear-gradient(180deg, #ffffff, #d9d9d9);
-    color: #000000;
-    border: 3px solid #ffffff;
-    transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s;
-    text-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.7);
-    text-decoration: none;
-    white-space: nowrap;
-    box-shadow: 0 0 10px #ffffff;
+    font-weight: bold;
+    border-radius: 8px;
+    background-color: #004aad;
+    color: white;
+    border: 2px solid #ffffff;
+    transition: background-color 0.3s ease, transform 0.2s;
 }
 
 .nav-buttons a:hover {
-    background: linear-gradient(180deg, #d9d9d9, #ffffff);
-    transform: translateY(-2px);
-    box-shadow: 0 0 15px #ffffff;
+    background-color: #002855;
+    transform: translateY(-3px);
 }
