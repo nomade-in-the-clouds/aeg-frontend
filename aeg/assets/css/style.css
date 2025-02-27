@@ -60,3 +60,24 @@ h1 {
     background-color: #002855;
     transform: translateY(-3px);
 }
+
+/* Updated button styles to match reference image */
+.nav-buttons a {
+    display: block;
+    width: 200px;
+    padding: 0.8rem;
+    font-size: 1.3rem;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #00aaff, #0077cc);
+    color: white;
+    border: none;
+    box-shadow: 0px 4px 10px rgba(0, 255, 255, 0.7);
+    transition: background 0.3s ease, transform 0.2s;
+}
+
+.nav-buttons a:hover {
+    background: linear-gradient(135deg, #0077cc, #0055aa);
+    transform: translateY(-3px);
+}
