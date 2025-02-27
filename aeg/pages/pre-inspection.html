@@ -134,7 +134,7 @@
           <tr>
             <th>Item</th>
             <th>Damage Notes</th>
-            <th style="width: 140px; text-align: center;">Attach Photo</th>
+            <th>Attach Photo</th>
           </tr>
         </table>
       </div>
@@ -145,7 +145,7 @@
           <tr>
             <th>Item</th>
             <th>Damage Notes</th>
-            <th style="width: 140px; text-align: center;">Attach Photo</th>
+            <th>Attach Photo</th>
           </tr>
         </table>
       </div>
@@ -216,6 +216,11 @@
     }
 
     document.getElementById("customer").addEventListener("change", loadVehicles);
+    document.getElementById("preInspectionForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Pre-inspection saved!");
+    });
+
     loadCustomers();
     loadInspectionTables();
   </script>
