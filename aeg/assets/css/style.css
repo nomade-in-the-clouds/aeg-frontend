@@ -23,17 +23,27 @@ body {
     text-align: center;
 }
 
-/* Header styling with bold industrial font */
-h1 {
-    font-family: 'Luckiest Guy', cursive;
-    font-size: 4rem;
-    text-transform: uppercase;
-    color: white;
-    margin-bottom: 1.5rem;
-    letter-spacing: 2px;
+/* AEG DETAILING header styled like the First Name box */
+.header-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
-/* Navigation buttons with reduced width */
+.header-box {
+    background: linear-gradient(135deg, #B0B0B0, #8C8C8C);
+    color: black;
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 15px 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.3);
+    text-align: center;
+}
+
+/* Navigation buttons with slate gray styling */
 .nav-buttons {
     display: flex;
     flex-direction: column;
@@ -49,35 +59,15 @@ h1 {
     font-size: 1.3rem;
     text-align: center;
     font-weight: bold;
-    border-radius: 8px;
-    background-color: #004aad;
-    color: white;
-    border: 2px solid #ffffff;
-    transition: background-color 0.3s ease, transform 0.2s;
-}
-
-.nav-buttons a:hover {
-    background-color: #002855;
-    transform: translateY(-3px);
-}
-
-/* Updated button styles to match reference image */
-.nav-buttons a {
-    display: block;
-    width: 200px;
-    padding: 0.8rem;
-    font-size: 1.3rem;
-    text-align: center;
-    font-weight: bold;
     border-radius: 12px;
-    background: linear-gradient(135deg, #00aaff, #0077cc);
+    background: linear-gradient(135deg, #4A4A4A, #2E2E2E);
     color: white;
     border: none;
-    box-shadow: 0px 4px 10px rgba(0, 255, 255, 0.7);
+    box-shadow: 0px 4px 10px rgba(128, 128, 128, 0.5);
     transition: background 0.3s ease, transform 0.2s;
 }
 
 .nav-buttons a:hover {
-    background: linear-gradient(135deg, #0077cc, #0055aa);
+    background: linear-gradient(135deg, #3A3A3A, #1E1E1E);
     transform: translateY(-3px);
 }
