@@ -1,7 +1,7 @@
 /* Global styles */
 body {
     font-family: 'Oswald', sans-serif;
-    background: linear-gradient(135deg, #002855, #004aad);
+    background: linear-gradient(135deg, #001F3F, #004AAD); /* Updated to match the reference background */
     color: #ffffff;
     margin: 0;
     padding: 0;
@@ -11,16 +11,17 @@ body {
     align-items: center;
 }
 
-/* Main container styling */
+/* Main container with glowing outer box */
 .main-container {
     background: rgba(0, 0, 0, 0.85);
     padding: 2.5rem;
     border-radius: 10px;
     width: 100%;
     max-width: 800px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
-    border: 2px solid #004aad;
     text-align: center;
+    position: relative;
+    border: 2px solid rgba(0, 255, 255, 0.7); /* Soft cyan border */
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.7); /* Glowing effect */
 }
 
 /* AEG DETAILING header styled like the First Name box */
