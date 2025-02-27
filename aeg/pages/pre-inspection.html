@@ -192,24 +192,30 @@
     
     function loadInspectionTables() {
       const extTable = document.getElementById("exteriorTable");
+      const intTable = document.getElementById("interiorTable");
+
       exteriorItems.forEach(item => {
-        let row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${item}</td>
-          <td><input type="text" class="ext-input" data-item="${item}" placeholder="Damage notes..."></td>
-          <td>
-            <div class="file-upload-container">
-              <label class="file-upload-label" for="file-${item.replace(/\s/g, '')}">Upload</label>
-              <input type="file" class="ext-file" data-item="${item}" id="file-${item.replace(/\s/g, '')}" accept="image/*">
-            </div>
-          </td>
+        extTable.innerHTML += `
+          <tr>
+            <td>${item}</td>
+            <td><input type="text" placeholder="Damage notes..."></td>
+            <td><label class="file-upload-label">Upload<input type="file" accept="image/*"></label></td>
+          </tr>
         `;
-        extTable.appendChild(row);
+      });
+
+      interiorItems.forEach(item => {
+        intTable.innerHTML += `
+          <tr>
+            <td>${item}</td>
+            <td><input type="text" placeholder="Damage notes..."></td>
+            <td><label class="file-upload-label">Upload<input type="file" accept="image/*"></label></td>
+          </tr>
+        `;
       });
     }
-    
+
     document.getElementById("customer").addEventListener("change", loadVehicles);
-    
     loadCustomers();
     loadInspectionTables();
   </script>
